@@ -43,6 +43,10 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
+    // what does <float>& buffer mean?
+    void splitBufferByEvents(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
+    void handleMidi(uint8_t data0, uint8_t data1, uint8_t data2);
+    void render(juce::AudioBuffer<float>& buffer, int sampleCount, int bufferOffset);
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)
 };

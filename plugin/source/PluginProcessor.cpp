@@ -139,19 +139,9 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-        juce::ignoreUnused (channelData);
-        // ..do something to the data...
+    splitBufferByEvents(buffer, midiMessages);
+
     }
-}
 
 //==============================================================================
 bool AudioPluginAudioProcessor::hasEditor() const
@@ -179,6 +169,58 @@ void AudioPluginAudioProcessor::setStateInformation (const void* data, int sizeI
     // whose contents will have been created by the getStateInformation() call.
     juce::ignoreUnused (data, sizeInBytes);
 }
+
+//==============================================================================
+void splitBufferByEvents(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+{
+  int bufferOffset = 0;
+
+  for (const auto metaData : midiMessages) {
+
+    int samplesThisSegment = metaData.samplePosition - bufferOffset;
+
+    if (samplesThisSegment > 0) 
+    {
+      render(buffer, samplesThisSegment, bufferOffset);
+      bufferOffset += samplesThisSegment;
+    } // if (samplesThisSegment > 0)
+
+    if (metaData.numBytes <= 3) 
+    {
+      uint8_t data1 = (metaData.numBytes >= 2) ? metaData.data[1] : 0;
+      uint8_t data2 = (metaData.numBytes >= 3) ? metaData.data[2] : 0;
+      handleMidi(metaData.data[0], data1, data2);
+    } // if (metaData.numBytes <= 3)
+
+  } // for (const auto metaData : midiMessages) 
+
+  int samplesLastSegment = buffer.getNumSamples() - bufferOffset;
+  if (samplesLastSegment > 0) 
+  {
+    render(buffer, samplesLastSegment, bufferOffset);
+  } // if (samplesLastSegment > 0) 
+
+  midiMessages.clear();
+} // splitBufferByEvents
+
+//==============================================================================
+
+void AudioPluginAudioProcessor::handleMidi(uint8_t data0,
+                                           uint8_t data1,
+                                           uint8_t data2)
+{
+  char s[16];
+  snprintf(s, 16, "%02hhX %02hhX %02hhX", data0, data1, data2);
+  DBG(s);
+ } //handleMidi
+
+//==============================================================================
+void render(juce::AudioBuffer<float>& buffer,
+             int sampleCount,
+             int bufferOffset) 
+{
+    // Do nothing.
+ } // render
 
 //==============================================================================
 // This creates new instances of the plugin..
