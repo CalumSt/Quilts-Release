@@ -171,8 +171,10 @@ void AudioPluginAudioProcessor::setStateInformation (const void* data, int sizeI
 }
 
 //==============================================================================
-void splitBufferByEvents(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
-{
+void AudioPluginAudioProcessor::splitBufferByEvents(
+    juce::AudioBuffer<float>& buffer,
+    juce::MidiBuffer& midiMessages) {
+
   int bufferOffset = 0;
 
   for (const auto metaData : midiMessages) {
@@ -197,7 +199,7 @@ void splitBufferByEvents(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& mid
   int samplesLastSegment = buffer.getNumSamples() - bufferOffset;
   if (samplesLastSegment > 0) 
   {
-    render(buffer, samplesLastSegment, bufferOffset);
+    AudioPluginAudioProcessor::render(buffer, samplesLastSegment, bufferOffset);
   } // if (samplesLastSegment > 0) 
 
   midiMessages.clear();
@@ -215,10 +217,14 @@ void AudioPluginAudioProcessor::handleMidi(uint8_t data0,
  } //handleMidi
 
 //==============================================================================
-void render(juce::AudioBuffer<float>& buffer,
+ void AudioPluginAudioProcessor::render(juce::AudioBuffer<float>& buffer,
              int sampleCount,
              int bufferOffset) 
 {
+// Unused (for now - want to build for real later).
+   _CRT_UNUSED(sampleCount);
+   _CRT_UNUSED(bufferOffset);
+   _CRT_UNUSED(buffer);
     // Do nothing.
  } // render
 
