@@ -42,6 +42,12 @@ CPMAddPackage(
         "gtest_force_shared_crt ON"
 )
 
+CPMAddPackage(
+    NAME MAXIMILLIAN
+    GITHUB_REPOSITORY micknoise/Maximillian
+    SOURCE_DIR ${LIB_DIR}/maximillian
+)
+
 # This command allows running tests from the "build" folder (the one where CMake generates the project to).
 enable_testing()
 
