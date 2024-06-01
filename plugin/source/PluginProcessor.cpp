@@ -88,7 +88,8 @@ void AudioPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    juce::ignoreUnused (sampleRate, samplesPerBlock);
+  juce::ignoreUnused(samplesPerBlock);
+    synth.prepareToPlay(sampleRate);
 }
 
 void AudioPluginAudioProcessor::releaseResources()
@@ -139,9 +140,9 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    splitBufferByEvents(buffer, midiMessages);
+   synth.processBlock(buffer, midiMessages);
 
-    }
+ }
 
 //==============================================================================
 bool AudioPluginAudioProcessor::hasEditor() const
@@ -171,6 +172,7 @@ void AudioPluginAudioProcessor::setStateInformation (const void* data, int sizeI
 }
 
 //==============================================================================
+/*
 void AudioPluginAudioProcessor::splitBufferByEvents(
     juce::AudioBuffer<float>& buffer,
     juce::MidiBuffer& midiMessages) {
@@ -222,11 +224,11 @@ void AudioPluginAudioProcessor::handleMidi(uint8_t data0,
              int bufferOffset) 
 {
 // Unused (for now - want to build for real later).
-   _CRT_UNUSED(sampleCount);
-   _CRT_UNUSED(bufferOffset);
-   _CRT_UNUSED(buffer);
+   juce::ignoreUnused(buffer, sampleCount, bufferOffset);
     // Do nothing.
  } // render
+
+ */
 
 //==============================================================================
 // This creates new instances of the plugin..
