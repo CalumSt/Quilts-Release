@@ -24,14 +24,19 @@ target_sources(${PROJECT_NAME}
     PRIVATE
         source/PluginEditor.cpp
         source/PluginProcessor.cpp
+        source/WavetableOscillator.cpp
+        source/WavetableSynth.cpp
         ${INCLUDE_DIR}/PluginEditor.h
         ${INCLUDE_DIR}/PluginProcessor.h
+        ${INCLUDE_DIR}/WavetableOscillator.h
+        ${INCLUDE_DIR}/WavetableSynth.h
 )
 
 # Sets the include directories of the plugin project.
 target_include_directories(${PROJECT_NAME}
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        include
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/JX11
 )
 
 # Links to all necessary dependencies. The present ones are recommended by JUCE.
