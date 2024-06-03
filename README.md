@@ -4,10 +4,10 @@ This current build is very barebones, only having the wavetable core.
 
 If you want to build it and test it for yourself, all you need to do is clone the repo, then run the following two commands:
 
-'''
+```
 cmake -S . -B build 
 cmake --build build
-'''
+```
 
 Or, you can run the first command, and open the generated solution in your IDE of choice, and compile it through that.
 
