@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
 
 # Version is needed by JUCE.
-project(JX11 VERSION 0.1.0)
+project(Release VERSION 0.1.0)
 
 # Adding a directory with the library/application name as a subfolder of the
 # include folder is a good practice. It helps avoid name clashes later on.
-set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/JX11")
+set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/Release")
 
 # Adds a plugin target (that's basically what the Projucer does).
 juce_add_plugin(${PROJECT_NAME}
@@ -16,7 +16,7 @@ juce_add_plugin(${PROJECT_NAME}
     PLUGIN_MANUFACTURER_CODE MCMP # change this
     PLUGIN_CODE EXPL # change this
     FORMATS VST3 # may change this
-    PRODUCT_NAME "JX11" # change this
+    PRODUCT_NAME "Release" # change this
 )
 
 # Sets the source files of the plugin project.
@@ -36,7 +36,7 @@ target_sources(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         include
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/JX11
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/Release
 )
 
 # Links to all necessary dependencies. The present ones are recommended by JUCE.
@@ -60,6 +60,10 @@ target_compile_definitions(${PROJECT_NAME}
         JUCE_USE_CURL=0
         JUCE_VST3_CAN_REPLACE_VST2=0
 )
+
+# One of these two commands should fix the juce_audio_processors errors
+# add_subdirectory(juce_audio_processors)
+find_package(JUCE REQUIRED)
 
 # Enables all warnings and treats warnings as errors.
 # This needs to be set up only for your projects, not 3rd party

@@ -1,7 +1,7 @@
-#include "JX11/WavetableSynth.h"
+#include "Release/WavetableSynth.h"
 
-void WavetableSynth::prepareToPlay(double sampleRate) {
-  this->sampleRate = sampleRate;
+void WavetableSynth::prepareToPlay(double localSampleRate) {
+  this->sampleRate = localSampleRate;
   initialiseOscillators();
 };
 //=========================================================================
@@ -43,8 +43,7 @@ void WavetableSynth::initialiseOscillators() {
 }
 
 //=========================================================================
-void WavetableSynth::render(juce::AudioBuffer<float>& buffer,
-                            int startSample,
+void WavetableSynth::render(juce::AudioBuffer<float>& buffer, int startSample,
                             int endSample) {
   // get pointer to first channel
   auto* firstChannel = buffer.getWritePointer(0);
@@ -62,8 +61,9 @@ void WavetableSynth::render(juce::AudioBuffer<float>& buffer,
   }
 
   for (auto channel = 1; channel < buffer.getNumChannels(); ++channel) {
+    auto* channelData = buffer.getWritePointer(channel);
     std::copy(firstChannel + startSample, firstChannel + endSample,
-              buffer.getWritePointer(channel) + startSample);
+              channelData + startSample);
   }
 }
 

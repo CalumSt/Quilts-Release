@@ -9,9 +9,8 @@ public:
   void processBlock(juce::AudioBuffer<float>& buffer,
                     juce::MidiBuffer& midiMessages);
 
-  double sampleRate;
-
 private:
+  double sampleRate;
   void initialiseOscillators();
   void handleMidiEvent(const juce::MidiMessage& midiEvent);
   float midiNoteNumberToFrequency(int midiNoteNumber);

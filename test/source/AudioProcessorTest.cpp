@@ -1,5 +1,5 @@
 
-#include <JX11/PluginProcessor.h>
+#include <Release/PluginProcessor.h>
 #include <gtest/gtest.h>
 
 namespace audio_plugin_test {

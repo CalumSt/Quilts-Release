@@ -1,16 +1,16 @@
-#include "WavetableOscillator.h"
-#include<cmath>
+#include "Release/WavetableOscillator.h"
+#include <cmath>
 
 //=========================================================================
 WavetableOscillator::WavetableOscillator(std::vector<float> waveTable,
-                                         double sampleRate) 
-    : waveTable{std::move(waveTable)}, sampleRate{sampleRate} 
-{}
+                                         double sampleRate)
+    : waveTable{std::move(waveTable)}, sampleRate{sampleRate} {}
 
 //=========================================================================
 void WavetableOscillator::setFrequency(float frequency) {
   // Cast to floats
-  indexIncrement = frequency * static_cast<float>(waveTable.size()) / static_cast<float>(sampleRate);
+  indexIncrement = frequency * static_cast<float>(waveTable.size()) /
+                   static_cast<float>(sampleRate);
 }
 
 //=========================================================================
@@ -21,10 +21,8 @@ float WavetableOscillator::getSample() {
   return sample;
 }
 
-
 //=========================================================================
 float WavetableOscillator::interpolateLinearly() {
-
   const auto truncatedIndex = static_cast<int>(index);
   const auto nextIndex =
       (truncatedIndex + 1) % static_cast<int>(waveTable.size());
@@ -42,6 +40,4 @@ void WavetableOscillator::stop() {
   indexIncrement = 0.f;
 }
 //=========================================================================
-bool WavetableOscillator::isPlaying() const {
-  return indexIncrement != 0.f;
-}
+bool WavetableOscillator::isPlaying() const { return indexIncrement != 0.f; }
